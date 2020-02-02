@@ -1,0 +1,78 @@
+---
+title: "Notes as a landing page?"
+author: "Anthony Davidson"
+date: "02/02/2020"
+vignette: >
+  %\VignetteIndexEntry{aRxiv tutorial}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8](inputenc)
+---
+
+[arXiv](https://arxiv.org) is a repository of electronic preprints for
+computer science, mathematics, physics, quantitative biology,
+quantitative finance, and statistics. The
+[aRxiv package](https://github.com/ropensci/aRxiv) provides an
+[R](https://www.r-project.org) interface to the
+[arXiv API](https://arxiv.org/help/api/index).
+
+Note that the arXiv API _does not_ require an API key.
+
+```{r be_graceful_on_cran, include=FALSE}
+# if on cran, avoid errors when connection problems
+on_cran <- Sys.getenv("NOT_CRAN")!="true"
+if(on_cran) {
+    aRxiv:::set_arxiv_timeout(1)
+    aRxiv:::set_message_on_timeout(TRUE)
+}
+```
+
+```{r change_aRxiv_delay_option, include=FALSE}
+options(aRxiv_delay=0.5)
+```
+
+## Installation
+
+You can install the [aRxiv package](https://github.com/rOpenSci/aRxiv)
+via [CRAN](https://cran.r-project.org):
+
+```{r install_from_cran, eval=FALSE}
+install.packages("aRxiv")
+```
+
+Or use `devtools::install_github()` to get the (possibly more recent) version
+at [GitHub](https://github.com/rOpenSci/aRxiv):
+
+```{r install_pkgs, eval=FALSE}
+install.packages("devtools")
+library(devtools)
+install_github("ropensci/aRxiv")
+```
+
+## Basic use
+
+Use `arxiv_search()` to search [arXiv](https://arxiv.org),
+`arxiv_count()` to get a simple count of manuscripts matching a
+query, and `arxiv_open()` to open the abstract pages for a set of
+results from `arxiv_search()`.
+
+We'll get to the details in a moment. For now, let's look at a few
+examples.
+
+Suppose we wanted to identify all arXiv manuscripts with &ldquo;`Peter
+Hall`&rdquo; as an author. It is best to first get a count, so that we have
+a sense of how many records the search will return. (Peter Hall was
+&ldquo;[among the world's most prolific and highly cited authors in both probability and statistics](https://en.wikipedia.org/wiki/Peter_Gavin_Hall).&rdquo;)
+We first use `library()` to load the aRxiv package and then
+`arxiv_count()` to get the count.
+
+```{r arxiv_count}
+library(aRxiv)
+# arxiv_count('au:""')
+# 
+# #search options?
+# arxiv_search("submittedDate:[20201701010000 TO 20201701012400]", limit=2)
+# rec <- arxiv_search('au:"Peter Hall"', limit=100)
+# nrow(rec)
+
+```
+
